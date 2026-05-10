@@ -8,7 +8,6 @@ export default function Laporan() {
     // Jumlahkan semua total dari penjualan yang selesai
     let totalPenjualan = 0;
     penjualanSelesai.forEach(item => {
-        // Hapus titik dari "700.000" jadi "700000", lalu ubah jadi angka
         const angka = parseInt(item.total.replace(/\./g, ''));
         totalPenjualan = totalPenjualan + angka;
     });
@@ -23,7 +22,6 @@ export default function Laporan() {
     });
 
     // produk terlaris
-    // Buat daftar produk terlaris (top 5)
     const produkTerlaris = [
         { nama: "Rok Midi", jumlah: 3 },
         { nama: "Dress Floral", jumlah: 2 },
@@ -41,10 +39,10 @@ export default function Laporan() {
                     <p className="text-gray-500 text-sm mt-1">Laporan penjualan dan performa boutique</p>
                 </div>
 
-                {/* 4 Card Statistik */}
+                {/* 4 Card  */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-3">
                     
-                    {/* Card 1: Total Penjualan */}
+                    {/* Total Penjualan */}
                     <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
                         <div className="">
                             
@@ -53,7 +51,7 @@ export default function Laporan() {
                         <p className="text-3xl font-bold">Rp {totalPenjualan.toLocaleString('id-ID')}</p>
                     </div>
 
-                    {/* Card 2: Profit */}
+                    {/*  Profit */}
                     <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white shadow-lg">
                         <div className="">
                             
@@ -62,7 +60,7 @@ export default function Laporan() {
                         <p className="text-3xl font-bold">Rp {profitPerBulan.toLocaleString('id-ID')}</p>
                     </div>
 
-                    {/* Card 3: Produk Terjual */}
+                    {/* Produk Terjual */}
                     <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg">
                         <div className="">
                             
@@ -71,7 +69,7 @@ export default function Laporan() {
                         <p className="text-3xl font-bold">{produkTerjual} pcs</p>
                     </div>
 
-                    {/* Card 4: Transaksi Selesai */}
+                    {/*  Transaksi Selesai */}
                     <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 text-white shadow-lg">
                         <div className="">
                            

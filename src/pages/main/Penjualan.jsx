@@ -5,9 +5,9 @@ import penjualanData from "../../data/penjualanData";
 export default function Penjualan() {
     const [penjualan] = useState(penjualanData);
 
-    // ========== HITUNG STATISTIK SEDERHANA ==========
+    // hitung statistiknya
     
-    // 1. Total Penjualan (jumlahkan semua total yang selesai)
+    //Total Penjualan 
     let totalPenjualan = 0;
     penjualan.forEach(item => {
         if (item.status === "Selesai") {
@@ -17,13 +17,13 @@ export default function Penjualan() {
         }
     });
 
-    // 2. Total Item Terjual (jumlahkan semua jumlah)
+    // Total Item Terjual 
     let totalItem = 0;
     penjualan.forEach(item => {
         totalItem = totalItem + item.jumlah;
     });
 
-    // 3. Hitung berapa transaksi yang selesai
+    // Hitung berapa transaksi yang selesai
     let penjualanSelesai = 0;
     penjualan.forEach(item => {
         if (item.status === "Selesai") {

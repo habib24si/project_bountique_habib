@@ -36,14 +36,16 @@ const penjualanData = [
         status: "Pending" 
     },
     { 
-        id: 5, 
-        tanggal: "08 Mei 2026", 
-        model: "Celana Kulot", 
+        id: 1, 
+        tanggal: "10 Mei 2026", 
+        model: "Dress Floral", 
         jumlah: 2, 
-        harga: "280.000", 
-        total: "560.000", 
+        harga: "350.000", 
+        total: "700.000", 
         status: "Selesai" 
-    },
+    }
 ];
+
+penjualanData[0].data = penjualanData;
 
 export default penjualanData;
