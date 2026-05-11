@@ -74,9 +74,9 @@
     display: flex;
     flex-direction: column;
     gap: 28px;
-    background: #1a1a1a;
+    background: #000000;
     color: #ffffff;
-    border-right: 1px solid #2a2a2a;
+    border-right: 1px solid #2346D7;
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
 }
@@ -131,7 +131,7 @@
 
 #profile-email {
     font-size: 0.875rem;
-    color: #9ca3af;
+    color: #ffffff;
     margin: 0;
 }
 
@@ -156,7 +156,7 @@
 
 #logo-subtitle {
     font-size: 0.95rem;
-    color: #6b7280;
+    color: #ffffff;
 }
 
 #sidebar-menu {
@@ -184,7 +184,7 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #9ca3af;
+    color: #ffffff;
     border-top: 1px solid #f3f4f6;
     margin-top: 8px;
 }
@@ -203,7 +203,7 @@
     font-weight: 500;
     cursor: pointer;
     text-decoration: none;
-    color: #9ca3af;
+    color: #ffffff;
     transition: all 0.2s ease;
 }
 
@@ -304,7 +304,7 @@
     border-radius: 14px;
     background: #eaf3ff;
     border: 0;
-    color: #2563eb;
+    color: #f3f3f3;
 }
 
 #notification-icon {
@@ -454,7 +454,7 @@
     gap: 14px;
     padding: 18px 16px;
     border-radius: 8px;
-    background: #ffffff;
+    background: #000000;
     border: 1px solid #f0f0f0;
     box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
 }
@@ -589,7 +589,7 @@
 /* Sidebar Dark Overrides */
 .dark #sidebar {
     background: #1e293b;
-    border-color: #334155;
+    border-color: #dddddd;
     color: #f1f5f9;
 }
 .dark #logo-title {

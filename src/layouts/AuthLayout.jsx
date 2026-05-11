@@ -2,21 +2,28 @@ import { Outlet } from "react-router-dom";
 
 export default function AuthLayout() {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md">
-                <div className="flex items-center justify-center mb-6">
-                    <h1 className="text-4xl font-poppins font-extrabold text-gray-800">
+        <div className="w-full min-h-screen bg-gray-100 flex items-center justify-center p-6">
+
+            <div className="w-full max-w-7xl bg-white rounded-3xl overflow-hidden shadow-lg">
+
+                {/* Header */}
+                <div className="flex items-center justify-center pt-5">
+                    <h1 className="text-2xl font-extrabold text-gray-800">
                         <span className="text-black">HSA BOUTIQUE</span>
                         <span className="text-green-500">.</span>
                     </h1>
                 </div>
 
-                <Outlet/>
+                {/* Content */}
+                <div className="p-6">
+                    <Outlet />
+                </div>
 
-                <p className="text-center text-sm text-gray-500 mt-6">
-                    © 2025 HSA BOUTIQUE Admin Dashboard. All rights reserved.
+                {/* Footer */}
+                <p className="text-center text-xs text-gray-500 pb-4">
+                    © 2025 HSA BOUTIQUE Admin Dashboard
                 </p>
             </div>
         </div>
-    )
+    );
 }
