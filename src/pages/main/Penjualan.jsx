@@ -1,9 +1,19 @@
 import { useState } from "react";
 import { FaShoppingBag, FaCalendar, FaDollarSign, FaBox } from "react-icons/fa";
 import penjualanData from "../../data/penjualanData";
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption, TableFooter } from "@/components/ui/table";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis } from "@/components/ui/pagination";
 
 export default function Penjualan() {
     const [penjualan] = useState(penjualanData);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+
+    // Pagination logic
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = penjualan.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(penjualan.length / itemsPerPage);
 
     // hitung statistiknya
     
@@ -97,47 +107,81 @@ export default function Penjualan() {
                 </div>
 
                 {/* Tabel Penjualan */}
-                <div className="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
-                    <div className="px-6 py-4 border-b border-gray-100">
-                        <h2 className="text-lg font-bold text-gray-800">Riwayat Penjualan</h2>
-                    </div>
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead className="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase">No</th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase">Tanggal</th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase">Model</th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase">Jumlah</th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase">Harga Satuan</th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase">Total</th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-100">
-                                {penjualan.map((item, index) => (
-                                    <tr key={item.id} className="hover:bg-gray-50 transition-colors">
-                                        <td className="px-6 py-4 text-sm text-gray-600">{index + 1}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-600">{item.tanggal}</td>
-                                        <td className="px-6 py-4 text-sm font-semibold text-gray-800">{item.model}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-600">{item.jumlah} pcs</td>
-                                        <td className="px-6 py-4 text-sm text-gray-600">Rp {item.harga}</td>
-                                        <td className="px-6 py-4 text-sm font-bold text-gray-800">Rp {item.total}</td>
-                                        <td className="px-6 py-4">
-                                            {item.status === "Selesai" ? (
-                                                <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
-                                                    Selesai
-                                                </span>
-                                            ) : (
-                                                <span className="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">
-                                                    Pending
-                                                </span>
-                                            )}
-                                        </td>
-                                    </tr>
+                <div className="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100 p-6">
+                    <Table>
+                        <TableCaption>Daftar riwayat penjualan boutique</TableCaption>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className="w-[80px]">No</TableHead>
+                                <TableHead>Tanggal</TableHead>
+                                <TableHead>Model</TableHead>
+                                <TableHead>Jumlah</TableHead>
+                                <TableHead>Harga Satuan</TableHead>
+                                <TableHead>Total</TableHead>
+                                <TableHead>Status</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {currentItems.map((item, index) => (
+                                <TableRow key={item.id}>
+                                    <TableCell className="font-medium">{indexOfFirstItem + index + 1}</TableCell>
+                                    <TableCell>{item.tanggal}</TableCell>
+                                    <TableCell className="font-semibold">{item.model}</TableCell>
+                                    <TableCell>{item.jumlah} pcs</TableCell>
+                                    <TableCell>Rp {item.harga}</TableCell>
+                                    <TableCell className="font-bold">Rp {item.total}</TableCell>
+                                    <TableCell>
+                                        {item.status === "Selesai" ? (
+                                            <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                                                Selesai
+                                            </span>
+                                        ) : (
+                                            <span className="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">
+                                                Pending
+                                            </span>
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                        <TableFooter>
+                            <TableRow>
+                                <TableCell colSpan={5}>Total Penjualan</TableCell>
+                                <TableCell className="font-bold" colSpan={2}>Rp {totalPenjualan.toLocaleString('id-ID')}</TableCell>
+                            </TableRow>
+                        </TableFooter>
+                    </Table>
+
+                    {/* Pagination */}
+                    <div className="mt-4">
+                        <Pagination>
+                            <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious 
+                                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                        disabled={currentPage === 1}
+                                    />
+                                </PaginationItem>
+                                
+                                {[...Array(totalPages)].map((_, i) => (
+                                    <PaginationItem key={i + 1}>
+                                        <PaginationLink
+                                            onClick={() => setCurrentPage(i + 1)}
+                                            isActive={currentPage === i + 1}
+                                        >
+                                            {i + 1}
+                                        </PaginationLink>
+                                    </PaginationItem>
                                 ))}
-                            </tbody>
-                        </table>
+
+                                <PaginationItem>
+                                    <PaginationNext 
+                                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                        disabled={currentPage === totalPages}
+                                    />
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
                     </div>
                 </div>
             </div>
