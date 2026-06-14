@@ -54,7 +54,7 @@ export default function Dashboard() {
             {/* Main Content */}
             <div className="flex-1">
                 <div className="bg-white rounded-l-3xl shadow-sm p-8 h-full">
-                    <PageTitle title="Pengeluaran Boutique">
+                    <PageTitle title="Pendapatan Boutique">
                         <AvatarGroup avatars={avatars} max={3} />
                     </PageTitle>
 
