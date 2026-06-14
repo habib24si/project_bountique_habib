@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+import { userAPI } from "../../services/notesAPI";
 import { ImSpinner2 } from "react-icons/im";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
@@ -13,9 +13,8 @@ export default function Login() {
     const [error, setError] = useState("");
 
     const [dataForm, setDataForm] = useState({
-        email: "",
-        password: "",
         name: "",
+        password: "",
     });
 
     const handleChange = (evt) => {
@@ -33,29 +32,24 @@ export default function Login() {
         setLoading(true);
         setError("");
 
-        axios
-            .post("https://dummyjson.com/auth/login", {
-                username: dataForm.email,
-                password: dataForm.password,
-            })
-            .then((response) => {
-                if (response.status !== 200) {
-                    setError(response.data.message);
-                    return;
-                }
-
-                navigate("/");
-            })
-            .catch((err) => {
-                if (err.response) {
-                    setError(err.response.data.message || "An error occurred");
-                } else {
-                    setError(err.message || "An unknown error occurred");
-                }
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        try {
+            const response = await userAPI.login(dataForm.name, dataForm.password);
+            
+            // Simpan token/session
+            localStorage.setItem('access_token', response.access_token);
+            localStorage.setItem('user', JSON.stringify(response.user));
+            
+            // Redirect ke dashboard
+            navigate("/");
+        } catch (err) {
+            if (err.response) {
+                setError(err.response.data.error_description || err.response.data.msg || "Login gagal");
+            } else {
+                setError(err.message || "Terjadi kesalahan");
+            }
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -75,7 +69,7 @@ export default function Login() {
                     <div className="w-full max-w-sm">
 
                         <h2 className="text-3xl font-semibold text-black mb-10">
-                            Get Started Now
+                            Sign In
                         </h2>
 
                         {/* Error */}
@@ -96,8 +90,6 @@ export default function Login() {
 
                         <form onSubmit={handleSubmit}>
 
-                            
-
                             {/* Name */}
                             <div className="mb-4">
                                 <label className="text-sm text-gray-500 block mb-2">
@@ -106,9 +98,11 @@ export default function Login() {
 
                                 <input
                                     type="text"
-                                    name="email"
-                                    value={dataForm.email}
+                                    name="name"
+                                    value={dataForm.name}
                                     onChange={handleChange}
+                                    placeholder="John Doe"
+                                    required
                                     className="w-full border border-gray-200 rounded-lg px-4 py-3 outline-none focus:border-green-500"
                                 />
                             </div>
@@ -124,6 +118,8 @@ export default function Login() {
                                     name="password"
                                     value={dataForm.password}
                                     onChange={handleChange}
+                                    placeholder="••••••••"
+                                    required
                                     className="w-full border border-gray-200 rounded-lg px-4 py-3 outline-none focus:border-green-500"
                                 />
                             </div>
@@ -141,9 +137,9 @@ export default function Login() {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-[#3f6b2a] hover:bg-[#345922] text-white py-3 rounded-lg font-medium transition"
+                                className="w-full bg-[#3f6b2a] hover:bg-[#345922] text-white py-3 rounded-lg font-medium transition disabled:opacity-50"
                             >
-                                {loading ? "Loading..." : "Signup"}
+                                {loading ? "Loading..." : "Sign In"}
                             </button>
                         </form>
 
@@ -178,9 +174,12 @@ export default function Login() {
 
                         {/* Bottom */}
                         <p className="text-center text-gray-500 text-sm mt-8">
-                            Have an account?{" "}
-                            <span className="text-blue-600 cursor-pointer">
-                                Sign in
+                            Don't have an account?{" "}
+                            <span 
+                                className="text-blue-600 cursor-pointer hover:underline"
+                                onClick={() => navigate("/register")}
+                            >
+                                Sign up
                             </span>
                         </p>
                     </div>

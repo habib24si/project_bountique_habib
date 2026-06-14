@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaPlus, FaTimes, FaTshirt } from "react-icons/fa";
 import modelsData from "../../data/modelsData";
 
 export default function TambahModel() {
-    // Load data dari localStorage atau gunakan data default
-    const [models, setModels] = useState(() => {
-        const savedModels = localStorage.getItem('modelsData');
-        return savedModels ? JSON.parse(savedModels) : modelsData;
-    });
+    // useRef untuk auto focus input nama saat form dibuka
+    const namaInputRef = useRef(null);
+    
+    // State menggunakan data dari JSON
+    const [models, setModels] = useState(modelsData);
     
     const [showForm, setShowForm] = useState(false);
     const [form, setForm] = useState({ 
@@ -20,10 +20,12 @@ export default function TambahModel() {
         deskripsi: ""
     });
 
-    // Simpan ke localStorage setiap kali models berubah
+    // useEffect untuk auto focus ke input nama saat form dibuka
     useEffect(() => {
-        localStorage.setItem('modelsData', JSON.stringify(models));
-    }, [models]);
+        if (showForm && namaInputRef.current) {
+            namaInputRef.current.focus();
+        }
+    }, [showForm]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -78,7 +80,9 @@ export default function TambahModel() {
                                 <div>
                                     <label className="text-sm font-medium text-gray-700 block mb-1">Nama Model</label>
                                     <input
-                                        type="text" required
+                                        ref={namaInputRef}
+                                        type="text" 
+                                        required
                                         value={form.nama}
                                         onChange={e => setForm({ ...form, nama: e.target.value })}
                                         placeholder="Contoh: Dress Floral"

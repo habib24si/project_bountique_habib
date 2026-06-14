@@ -9,6 +9,7 @@ import RightSidebar from "../../components/RightSidebar";
 import CategoryList from "../../components/CategoryList";
 import PromoCard from "../../components/PromoCard";
 import Button from "../../components/Button";
+import penjualanData from "../../data/penjualanData";
 
 export default function Dashboard() {
     const expensesData = [
@@ -30,7 +31,15 @@ export default function Dashboard() {
         { name: "Gaji Karyawan", amount: "520.000", color: "bg-teal-200", width: "55%" },
     ];
 
-    const chartData = [40, 60, 45, 70, 50, 80, 55, 75, 60, 85, 70, 100];
+    // Generate chart data dari penjualan
+    // Ambil data penjualan dan convert ke chart values berdasarkan total
+    const chartData = penjualanData
+        .filter(item => item.data === undefined) // Exclude yang punya property data
+        .map(item => {
+            // Convert string "700.000" ke number dan scale down untuk chart
+            const total = parseInt(item.total.replace(/\./g, ''));
+            return Math.round(total / 10000); // Scale down untuk visualisasi
+        });
 
     const avatars = [
         { src: "/img/TAYO.jpg", alt: "User 1" },
@@ -74,6 +83,7 @@ export default function Dashboard() {
                 <div className="mb-8">
                     <CategoryList categories={categories} />
                 </div>
+                
 
                 <div className="mt-auto">
                     <PromoCard

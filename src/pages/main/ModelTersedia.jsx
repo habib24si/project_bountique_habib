@@ -1,41 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FaTshirt, FaTag, FaBox, FaSync } from "react-icons/fa";
 import modelsData from "../../data/modelsData";
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent } from "@/components/ui/empty";
 
 export default function ModelTersedia() {
-    // Load data dari localStorage atau gunakan data default
-    const [models, setModels] = useState(() => {
-        const savedModels = localStorage.getItem('modelsData');
-        return savedModels ? JSON.parse(savedModels) : modelsData;
-    });
+    // State menggunakan data dari JSON
+    const [models, setModels] = useState(modelsData);
 
-    // Update data ketika localStorage berubah
-    useEffect(() => {
-        const handleStorageChange = () => {
-            const savedModels = localStorage.getItem('modelsData');
-            if (savedModels) {
-                setModels(JSON.parse(savedModels));
-            }
-        };
-
-        window.addEventListener('storage', handleStorageChange);
-        
-        // Check localStorage setiap kali component di-mount
-        const savedModels = localStorage.getItem('modelsData');
-        if (savedModels) {
-            setModels(JSON.parse(savedModels));
-        }
-
-        return () => window.removeEventListener('storage', handleStorageChange);
-    }, []);
-
-    // Fungsi untuk refresh data manual
+    // Fungsi untuk refresh data dari JSON
     const refreshData = () => {
-        const savedModels = localStorage.getItem('modelsData');
-        if (savedModels) {
-            setModels(JSON.parse(savedModels));
-        }
+        setModels([...modelsData]);
     };
 
     const getCategoryColor = (kategori) => {
