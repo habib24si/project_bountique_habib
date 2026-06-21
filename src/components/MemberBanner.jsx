@@ -1,10 +1,13 @@
 import { FaCrown } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function MemberBanner() {
+    const navigate = useNavigate();
+
     return (
-        <div className="bg-gradient-to-br from-blue-100 to-blue-50 rounded-2xl p-5">
+        <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-5">
             <div className="flex items-center gap-2 mb-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-purple-500 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
                     <FaCrown className="text-white" />
                 </div>
                 <h3 className="font-bold text-gray-800">Ayo!! Jadi Member</h3>
@@ -14,8 +17,11 @@ export default function MemberBanner() {
                 Dapatkan diskon hingga 30%, gratis ongkir, dan akses produk eksklusif
             </p>
 
-            <button className="w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white font-semibold py-2 rounded-lg hover:from-purple-600 hover:to-purple-700">
-                DAFTAR SEKARANG
+            <button 
+                onClick={() => navigate('/profil-company')}
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg"
+            >
+                LIHAT INFO LENGKAP
             </button>
         </div>
     );

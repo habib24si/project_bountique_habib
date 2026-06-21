@@ -2,15 +2,21 @@ import { Routes, Route } from "react-router-dom";
 import React, { Suspense } from "react";
 const MainLayout = React.lazy(() => import("./layouts/MainLayout"))
 const GuestLayout = React.lazy(() => import("./layouts/GuestLayout"))
+const MemberLayout = React.lazy(() => import("./layouts/MemberLayout"))
 const Dashboard = React.lazy(() => import("./pages/main/Dashboard"))
 const TambahModel = React.lazy(() => import("./pages/main/TambahModel"))
 const ModelTersedia = React.lazy(() => import("./pages/main/ModelTersedia"))
 const Penjualan = React.lazy(() => import("./pages/main/Penjualan"))
 const Laporan = React.lazy(() => import("./pages/main/Laporan"))
 const ManajemenUser = React.lazy(() => import("./pages/main/ManajemenUser"))
+const ProfilCompany = React.lazy(() => import("./pages/guest/ProfilCompany"))
 const Produk = React.lazy(() => import("./pages/guest/Produk"))
 const Pesanan = React.lazy(() => import("./pages/guest/Pesanan"))
 const Histori = React.lazy(() => import("./pages/guest/Histori"))
+const MemberDashboard = React.lazy(() => import("./pages/member/Dashboard"))
+const MemberBelanja = React.lazy(() => import("./pages/member/Belanja"))
+const MemberReward = React.lazy(() => import("./pages/member/Reward"))
+const MemberProfil = React.lazy(() => import("./pages/member/Profil"))
 const NotFound = React.lazy(() => import("./pages/main/NotFound"))
 const ErrorPage = React.lazy(() => import("./components/ErrorPage"))
 const AuthLayout = React.lazy(() => import("./layouts/AuthLayout"))
@@ -40,6 +46,16 @@ function App() {
                 <Route path="produk" element={<Produk />} />
                 <Route path="pesanan" element={<Pesanan />} />
                 <Route path="histori" element={<Histori />} />
+            </Route>
+
+            {/* Profil Company - Standalone (tanpa layout/sidebar) */}
+            <Route path="/profil-company" element={<ProfilCompany />} />
+
+            <Route path="/member" element={<MemberLayout />}>
+                <Route index element={<MemberDashboard />} />
+                <Route path="belanja" element={<MemberBelanja />} />
+                <Route path="reward" element={<MemberReward />} />
+                <Route path="profil" element={<MemberProfil />} />
             </Route>
 
                 <Route element={<AuthLayout/>}>

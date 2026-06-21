@@ -12,7 +12,7 @@ export default function GuestLayout() {
                     <p className="text-sm text-gray-500">Customer Portal</p>
                 </div>
 
-                <nav className="p-4 space-y-2">
+                <nav className="p-4 space-y-2 flex-1">
                     <NavLink
                         to="/guest/produk"
                         className={({ isActive }) =>
@@ -50,7 +50,7 @@ export default function GuestLayout() {
                     </NavLink>
                 </nav>
 
-                <div className="">
+                <div className="p-4 space-y-2">
                     <MemberBanner />
                     
                     <NavLink
