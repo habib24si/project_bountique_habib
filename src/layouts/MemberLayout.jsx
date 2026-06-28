@@ -1,26 +1,23 @@
 import { Outlet, NavLink } from "react-router-dom";
-import { FaHome, FaShoppingBag, FaGift, FaUser, FaArrowLeft, FaCrown } from "react-icons/fa";
+import { FaHome, FaShoppingBag, FaGift, FaUser, FaArrowLeft } from "react-icons/fa";
 
 export default function MemberLayout() {
     return (
         <div className="min-h-screen bg-gray-50 flex">
             {/* Sidebar */}
-            <div className="w-64 bg-purple-600 text-white shadow-lg flex flex-col">
-                <div className="p-6 border-b border-purple-500">
-                    <div className="flex items-center gap-3 mb-2">
-                        <FaCrown className="text-2xl" />
-                        <h2 className="text-2xl font-bold">Member Area</h2>
-                    </div>
-                    <p className="text-sm">Hsa Boutique </p>
+            <div className="w-64 bg-stone-900 text-white flex flex-col">
+                <div className="p-6">
+                    <h2 className="text-lg font-bold">HSA Boutique</h2>
+                    <p className="text-xs text-gray-400 mt-1">Member Area</p>
                 </div>
 
-                <nav className="p-4 space-y-2 flex-1">
+                <nav className="px-4 space-y-1 flex-1">
                     <NavLink
                         to="/member"
                         end
                         className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-3 rounded-lg ${
-                                isActive ? "bg-white text-purple-600 font-semibold" : "text-white hover:bg-purple-500"
+                            `flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm ${
+                                isActive ? "bg-rose-700 text-white font-semibold" : "text-gray-300 hover:bg-gray-800"
                             }`
                         }
                     >
@@ -31,8 +28,8 @@ export default function MemberLayout() {
                     <NavLink
                         to="/member/belanja"
                         className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-3 rounded-lg ${
-                                isActive ? "bg-white text-purple-600 font-semibold" : "text-white hover:bg-purple-500"
+                            `flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm ${
+                                isActive ? "bg-rose-700 text-white font-semibold" : "text-gray-300 hover:bg-gray-800"
                             }`
                         }
                     >
@@ -43,8 +40,8 @@ export default function MemberLayout() {
                     <NavLink
                         to="/member/reward"
                         className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-3 rounded-lg ${
-                                isActive ? "bg-white text-purple-600 font-semibold" : "text-white hover:bg-purple-500"
+                            `flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm ${
+                                isActive ? "bg-rose-700 text-white font-semibold" : "text-gray-300 hover:bg-gray-800"
                             }`
                         }
                     >
@@ -55,8 +52,8 @@ export default function MemberLayout() {
                     <NavLink
                         to="/member/profil"
                         className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-3 rounded-lg ${
-                                isActive ? "bg-white text-purple-600 font-semibold" : "text-white hover:bg-purple-500"
+                            `flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm ${
+                                isActive ? "bg-rose-700 text-white font-semibold" : "text-gray-300 hover:bg-gray-800"
                             }`
                         }
                     >
@@ -65,10 +62,10 @@ export default function MemberLayout() {
                     </NavLink>
                 </nav>
 
-                <div className="p-4">
+                <div className="p-4 border-t border-gray-700">
                     <NavLink
                         to="/"
-                        className="flex items-center gap-3 px-4 py-3 rounded-lg bg-purple-500 hover:bg-purple-700 text-white"
+                        className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-gray-300 hover:bg-gray-800"
                     >
                         <FaArrowLeft />
                         <span>Kembali ke Admin</span>

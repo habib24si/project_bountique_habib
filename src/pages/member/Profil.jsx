@@ -2,33 +2,37 @@ import { useState } from "react";
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaEdit, FaSave } from "react-icons/fa";
 
 export default function Profil() {
-    // State untuk mode edit
     const [isEdit, setIsEdit] = useState(false);
 
-    // State untuk data profil
     const [profil, setProfil] = useState({
         nama: "Habib Syadira Akbar",
         email: "Habib24si@Mahasiswa.pcr.ac.id",
         telepon: "0812-3456-7890",
-        alamat: "Jl. Fashion Street No. 45, Rmbai Pusat 10110",
+        alamat: "Jl. Fashion Street No. 45, Rumbai Pusat 10110",
         tanggalLahir: "25-09-2005",
         jenisKelamin: "Laki-Laki"
     });
 
+    const updateField = (field, value) => {
+        setProfil({ ...profil, [field]: value });
+    };
+
+    const simpanProfil = () => {
+        alert("Profil berhasil disimpan!");
+        setIsEdit(false);
+    };
 
     return (
-        <div className="p-6 bg-gray-50 min-h-screen">
-            {/* Header */}
+        <div className="p-6">
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-800">Profil Saya</h1>
-                    <p className="text-gray-500">Kelola informasi profil Anda</p>
+                    <h1 className="text-2xl font-bold text-gray-800">Profil Saya</h1>
+                    <p className="text-sm text-gray-500 mt-1">Kelola informasi profil Anda</p>
                 </div>
-                {/* Tombol Edit/Simpan */}
                 {!isEdit ? (
                     <button
                         onClick={() => setIsEdit(true)}
-                        className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold"
+                        className="flex items-center gap-2 px-4 py-2 bg-rose-700 hover:bg-rose-800 text-white rounded-lg text-sm font-semibold"
                     >
                         <FaEdit />
                         Edit Profil
@@ -36,7 +40,7 @@ export default function Profil() {
                 ) : (
                     <button
                         onClick={simpanProfil}
-                        className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg font-semibold"
+                        className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold"
                     >
                         <FaSave />
                         Simpan
@@ -45,169 +49,116 @@ export default function Profil() {
             </div>
 
             {/* Card Profil */}
-            <div className="bg-white rounded-lg shadow p-6 mb-6">
-                {/* Foto Profil */}
-                <div className="flex items-center gap-6 mb-6 pb-6 border-b">
-                    <div className="w-24 h-24 bg-purple-100 rounded-full flex items-center justify-center">
-                        <FaUser className="text-purple-600 text-4xl" />
+            <div className="bg-white rounded-lg border border-gray-100 p-5 mb-6">
+                <div className="flex items-center gap-4 mb-6 pb-5 border-b border-gray-100">
+                    <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center">
+                        <FaUser className="text-rose-700 text-2xl" />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-bold text-gray-800">{profil.nama}</h2>
-                        <p className="text-gray-500">Gold Member</p>
-                        <p className="text-sm text-purple-600 font-semibold mt-1">Member sejak Januari 2024</p>
+                        <h2 className="text-lg font-bold text-gray-800">{profil.nama}</h2>
+                        <p className="text-xs text-gray-400">Gold Member · Sejak Januari 2024</p>
                     </div>
                 </div>
 
-                {/* Form Data Profil */}
                 <div className="space-y-4">
-                    {/* Nama Lengkap */}
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
-                            Nama Lengkap
-                        </label>
+                        <label className="block text-xs font-semibold text-gray-500 mb-1.5">Nama Lengkap</label>
                         {isEdit ? (
-                            <input
-                                type="text"
-                                value={profil.nama}
-                                onChange={(e) => updateField('nama', e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                            />
+                            <input type="text" value={profil.nama} onChange={(e) => updateField('nama', e.target.value)}
+                                className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500" />
                         ) : (
-                            <div className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg">
-                                <FaUser className="text-gray-400" />
-                                <span className="text-gray-800">{profil.nama}</span>
+                            <div className="flex items-center gap-3 px-3 py-2.5 bg-gray-50 rounded-lg text-sm text-gray-800">
+                                <FaUser className="text-gray-400 text-xs" />
+                                {profil.nama}
                             </div>
                         )}
                     </div>
 
-                    {/* Email */}
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
-                            Email
-                        </label>
+                        <label className="block text-xs font-semibold text-gray-500 mb-1.5">Email</label>
                         {isEdit ? (
-                            <input
-                                type="email"
-                                value={profil.email}
-                                onChange={(e) => updateField('email', e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                            />
+                            <input type="email" value={profil.email} onChange={(e) => updateField('email', e.target.value)}
+                                className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500" />
                         ) : (
-                            <div className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg">
-                                <FaEnvelope className="text-gray-400" />
-                                <span className="text-gray-800">{profil.email}</span>
+                            <div className="flex items-center gap-3 px-3 py-2.5 bg-gray-50 rounded-lg text-sm text-gray-800">
+                                <FaEnvelope className="text-gray-400 text-xs" />
+                                {profil.email}
                             </div>
                         )}
                     </div>
 
-                    {/* Telepon */}
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
-                            Nomor Telepon
-                        </label>
+                        <label className="block text-xs font-semibold text-gray-500 mb-1.5">Nomor Telepon</label>
                         {isEdit ? (
-                            <input
-                                type="tel"
-                                value={profil.telepon}
-                                onChange={(e) => updateField('telepon', e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                            />
+                            <input type="tel" value={profil.telepon} onChange={(e) => updateField('telepon', e.target.value)}
+                                className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500" />
                         ) : (
-                            <div className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg">
-                                <FaPhone className="text-gray-400" />
-                                <span className="text-gray-800">{profil.telepon}</span>
+                            <div className="flex items-center gap-3 px-3 py-2.5 bg-gray-50 rounded-lg text-sm text-gray-800">
+                                <FaPhone className="text-gray-400 text-xs" />
+                                {profil.telepon}
                             </div>
                         )}
                     </div>
 
-                    {/* Alamat */}
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
-                            Alamat Lengkap
-                        </label>
+                        <label className="block text-xs font-semibold text-gray-500 mb-1.5">Alamat Lengkap</label>
                         {isEdit ? (
-                            <textarea
-                                value={profil.alamat}
-                                onChange={(e) => updateField('alamat', e.target.value)}
-                                rows="3"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                            />
+                            <textarea value={profil.alamat} onChange={(e) => updateField('alamat', e.target.value)} rows="2"
+                                className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500" />
                         ) : (
-                            <div className="flex items-start gap-3 px-4 py-3 bg-gray-50 rounded-lg">
-                                <FaMapMarkerAlt className="text-gray-400 mt-1" />
-                                <span className="text-gray-800">{profil.alamat}</span>
+                            <div className="flex items-start gap-3 px-3 py-2.5 bg-gray-50 rounded-lg text-sm text-gray-800">
+                                <FaMapMarkerAlt className="text-gray-400 text-xs mt-1" />
+                                {profil.alamat}
                             </div>
                         )}
                     </div>
 
-                    {/* Tanggal Lahir & Jenis Kelamin - 2 Kolom */}
                     <div className="grid grid-cols-2 gap-4">
-                        {/* Tanggal Lahir */}
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Tanggal Lahir
-                            </label>
+                            <label className="block text-xs font-semibold text-gray-500 mb-1.5">Tanggal Lahir</label>
                             {isEdit ? (
-                                <input
-                                    type="date"
-                                    value={profil.tanggalLahir}
-                                    onChange={(e) => updateField('tanggalLahir', e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                />
+                                <input type="date" value={profil.tanggalLahir} onChange={(e) => updateField('tanggalLahir', e.target.value)}
+                                    className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500" />
                             ) : (
-                                <div className="px-4 py-3 bg-gray-50 rounded-lg">
-                                    <span className="text-gray-800">{profil.tanggalLahir}</span>
-                                </div>
+                                <div className="px-3 py-2.5 bg-gray-50 rounded-lg text-sm text-gray-800">{profil.tanggalLahir}</div>
                             )}
                         </div>
-
-                        {/* Jenis Kelamin */}
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                Jenis Kelamin
-                            </label>
+                            <label className="block text-xs font-semibold text-gray-500 mb-1.5">Jenis Kelamin</label>
                             {isEdit ? (
-                                <select
-                                    value={profil.jenisKelamin}
-                                    onChange={(e) => updateField('jenisKelamin', e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                >
+                                <select value={profil.jenisKelamin} onChange={(e) => updateField('jenisKelamin', e.target.value)}
+                                    className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500">
                                     <option>Perempuan</option>
-                                    <option>Laki-laki</option>
+                                    <option>Laki-Laki</option>
                                 </select>
                             ) : (
-                                <div className="px-4 py-3 bg-gray-50 rounded-lg">
-                                    <span className="text-gray-800">{profil.jenisKelamin}</span>
-                                </div>
+                                <div className="px-3 py-2.5 bg-gray-50 rounded-lg text-sm text-gray-800">{profil.jenisKelamin}</div>
                             )}
                         </div>
                     </div>
                 </div>
 
-                {/* Tombol Batal (hanya muncul saat edit) */}
                 {isEdit && (
-                    <div className="mt-6 pt-6 border-t">
-                        <button
-                            onClick={() => setIsEdit(false)}
-                            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
-                        >
+                    <div className="mt-5 pt-5 border-t border-gray-100">
+                        <button onClick={() => setIsEdit(false)}
+                            className="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg text-sm hover:bg-gray-50">
                             Batal
                         </button>
                     </div>
                 )}
             </div>
 
-            {/* Keamanan Akun */}
-            <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="font-bold text-gray-800 mb-4 text-lg">Keamanan Akun</h3>
-                <div className="space-y-3">
-                    <button className="w-full text-left px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg">
-                        <p className="font-semibold text-gray-800">Ubah Password</p>
-                        <p className="text-sm text-gray-500">Terakhir diubah 2 bulan yang lalu</p>
+            {/* Keamanan */}
+            <div className="bg-white rounded-lg border border-gray-100 p-5">
+                <h3 className="font-semibold text-gray-800 text-sm mb-4">Keamanan Akun</h3>
+                <div className="space-y-2">
+                    <button className="w-full text-left px-3 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg">
+                        <p className="font-medium text-sm text-gray-800">Ubah Password</p>
+                        <p className="text-xs text-gray-400">Terakhir diubah 2 bulan yang lalu</p>
                     </button>
-                    <button className="w-full text-left px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg">
-                        <p className="font-semibold text-gray-800">Verifikasi Email</p>
-                        <p className="text-sm text-green-600">✓ Email sudah terverifikasi</p>
+                    <button className="w-full text-left px-3 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg">
+                        <p className="font-medium text-sm text-gray-800">Verifikasi Email</p>
+                        <p className="text-xs text-green-600">✓ Email sudah terverifikasi</p>
                     </button>
                 </div>
             </div>
