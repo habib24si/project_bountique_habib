@@ -2,10 +2,14 @@ import { useState, useEffect } from "react";
 import { userAPI } from "../../services/notesAPI";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
 
+// Import komponen kecil
+import UserTableRow from "../../components/admin/user/UserTableRow";
+
 export default function ManajemenUser() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    // Ambil data users saat pertama kali load
     useEffect(() => {
         userAPI.fetchUsers()
             .then(setUsers)
@@ -13,6 +17,7 @@ export default function ManajemenUser() {
             .finally(() => setLoading(false));
     }, []);
 
+    // Fungsi untuk hapus user
     const handleDelete = async (id) => {
         if (!confirm("Hapus user ini?")) return;
         try {
@@ -23,6 +28,7 @@ export default function ManajemenUser() {
         }
     };
 
+    // Tampilkan loading
     if (loading) return <div className="p-6 text-center">Loading...</div>;
 
     return (
@@ -47,20 +53,13 @@ export default function ManajemenUser() {
                                 </TableCell>
                             </TableRow>
                         ) : (
+                            // Loop untuk semua user - pakai komponen
                             users.map(user => (
-                                <TableRow key={user.id}>
-                                    <TableCell>{user.id}</TableCell>
-                                    <TableCell className="font-medium">{user.name}</TableCell>
-                                    <TableCell className="text-gray-400">••••••••</TableCell>
-                                    <TableCell className="text-right">
-                                        <button
-                                            onClick={() => handleDelete(user.id)}
-                                            className="text-red-600 hover:text-red-800 text-sm"
-                                        >
-                                            Hapus
-                                        </button>
-                                    </TableCell>
-                                </TableRow>
+                                <UserTableRow
+                                    key={user.id}
+                                    user={user}
+                                    onDelete={handleDelete}
+                                />
                             ))
                         )}
                     </TableBody>

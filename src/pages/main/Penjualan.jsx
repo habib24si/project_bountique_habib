@@ -2,7 +2,10 @@ import { useState } from "react";
 import { FaShoppingBag, FaCalendar, FaDollarSign, FaBox } from "react-icons/fa";
 import penjualanData from "../../data/penjualanData";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption, TableFooter } from "@/components/ui/table";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis } from "@/components/ui/pagination";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext } from "@/components/ui/pagination";
+
+// Import komponen kecil
+import StatCard from "../../components/admin/penjualan/StatCard";
 
 export default function Penjualan() {
     const [penjualan] = useState(penjualanData);
@@ -15,25 +18,24 @@ export default function Penjualan() {
     const currentItems = penjualan.slice(indexOfFirstItem, indexOfLastItem);
     const totalPages = Math.ceil(penjualan.length / itemsPerPage);
 
-    // hitung statistiknya
+    // Hitung statistik
     
-    //Total Penjualan 
+    // Total Penjualan
     let totalPenjualan = 0;
     penjualan.forEach(item => {
         if (item.status === "Selesai") {
-            // Hapus titik dari "700.000" jadi "700000"
             const angka = parseInt(item.total.replace(/\./g, ''));
             totalPenjualan = totalPenjualan + angka;
         }
     });
 
-    // Total Item Terjual 
+    // Total Item Terjual
     let totalItem = 0;
     penjualan.forEach(item => {
         totalItem = totalItem + item.jumlah;
     });
 
-    // Hitung berapa transaksi yang selesai
+    // Transaksi Selesai
     let penjualanSelesai = 0;
     penjualan.forEach(item => {
         if (item.status === "Selesai") {
@@ -50,60 +52,36 @@ export default function Penjualan() {
                     <p className="text-gray-500 text-sm mt-1">Data penjualan boutique</p>
                 </div>
 
-                {/* 4 Card Statistik */}
+                {/* 4 Card Statistik - Loop dengan array */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                    
-                    {/* Card 1: Total Transaksi */}
-                    <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                <FaShoppingBag className="text-blue-500 text-xl" />
-                            </div>
-                            <div>
-                                <p className="text-sm text-gray-500">Total Transaksi</p>
-                                <p className="text-2xl font-bold text-gray-800">{penjualan.length}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Card 2: Total Penjualan */}
-                    <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                                <FaDollarSign className="text-green-500 text-xl" />
-                            </div>
-                            <div>
-                                <p className="text-sm text-gray-500">Total Penjualan</p>
-                                <p className="text-xl font-bold text-gray-800">Rp {totalPenjualan.toLocaleString('id-ID')}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Card 3: Item Terjual */}
-                    <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                                <FaBox className="text-purple-500 text-xl" />
-                            </div>
-                            <div>
-                                <p className="text-sm text-gray-500">Item Terjual</p>
-                                <p className="text-2xl font-bold text-gray-800">{totalItem}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Card 4: Transaksi Selesai */}
-                    <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                                <FaCalendar className="text-orange-500 text-xl" />
-                            </div>
-                            <div>
-                                <p className="text-sm text-gray-500">Selesai</p>
-                                <p className="text-2xl font-bold text-gray-800">{penjualanSelesai}</p>
-                            </div>
-                        </div>
-                    </div>
+                    <StatCard
+                        icon={<FaShoppingBag />}
+                        label="Total Transaksi"
+                        value={penjualan.length}
+                        bgColor="bg-blue-100"
+                        iconColor="text-blue-500"
+                    />
+                    <StatCard
+                        icon={<FaDollarSign />}
+                        label="Total Penjualan"
+                        value={`Rp ${totalPenjualan.toLocaleString('id-ID')}`}
+                        bgColor="bg-green-100"
+                        iconColor="text-green-500"
+                    />
+                    <StatCard
+                        icon={<FaBox />}
+                        label="Item Terjual"
+                        value={totalItem}
+                        bgColor="bg-purple-100"
+                        iconColor="text-purple-500"
+                    />
+                    <StatCard
+                        icon={<FaCalendar />}
+                        label="Selesai"
+                        value={penjualanSelesai}
+                        bgColor="bg-orange-100"
+                        iconColor="text-orange-500"
+                    />
                 </div>
 
                 {/* Tabel Penjualan */}
