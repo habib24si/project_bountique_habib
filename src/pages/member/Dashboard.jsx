@@ -8,14 +8,12 @@ import PromoBanner from "../../components/member/PromoBanner";
 import { getTierInfo } from "../../utils/discountHelper";
 
 export default function MemberDashboard() {
-    // State untuk user data
-    const [userData, setUserData] = useState(null);
+    // State untuk tier info
     const [tierInfo, setTierInfo] = useState(null);
 
     // Fetch user data dari localStorage
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user') || '{}');
-        setUserData(user);
         
         // Get tier info (bronze/silver/gold)
         if (user.member_tier) {

@@ -2,6 +2,7 @@
 
 import { FaStar } from "react-icons/fa";
 import { calculatePrice, formatRupiah } from "../../../utils/discountHelper";
+import BuyButton from "../../common/BuyButton";
 
 export default function ProdukCard({ produk, onBeli, memberTier }) {
     // Hitung harga diskon berdasarkan tier member
@@ -86,13 +87,12 @@ export default function ProdukCard({ produk, onBeli, memberTier }) {
                         Hemat Rp {formatRupiah(hargaAsli - hargaAkhir)}
                     </p>
                     
-                    {/* Tombol Beli */}
-                    <button
-                        onClick={() => onBeli(produk)}
-                        className="w-full px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition shadow-md hover:shadow-lg"
-                    >
-                        Beli Sekarang
-                    </button>
+                    {/* Tombol Beli - Komponen */}
+                    <BuyButton 
+                        onClick={() => onBeli(produk)} 
+                        fullWidth={true}
+                        size="md"
+                    />
                 </div>
             </div>
         </div>
