@@ -1,4 +1,6 @@
+import { useState, useEffect } from "react";
 import { FaTshirt, FaTruck, FaStore, FaTag, FaCut } from "react-icons/fa";
+import { penjualanAPI } from "../../services/penjualanAPI";
 import PageTitle from "../../components/PageTitle";
 import AvatarGroup from "../../components/AvatarGroup";
 import Chart from "../../components/Chart";
@@ -9,9 +11,29 @@ import RightSidebar from "../../components/RightSidebar";
 import CategoryList from "../../components/CategoryList";
 import PromoCard from "../../components/PromoCard";
 import Button from "../../components/Button";
-import penjualanData from "../../data/penjualanData";
 
 export default function Dashboard() {
+    const [penjualanData, setPenjualanData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // useEffect untuk fetch data saat pertama kali load
+    useEffect(() => {
+        fetchPenjualan();
+    }, []);
+
+    // Fungsi untuk fetch penjualan dari Supabase
+    const fetchPenjualan = async () => {
+        try {
+            setLoading(true);
+            const data = await penjualanAPI.fetchPenjualan();
+            setPenjualanData(data);
+        } catch (error) {
+            console.error("Gagal memuat data penjualan:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const expensesData = [
         { category: "Stok Pakaian", time: "6:12 pm", desc: "Pembelian koleksi baru", amount: "-326.800", icon: FaTshirt, color: "bg-blue-400" },
         { category: "Pengiriman", time: "6:12 pm", desc: "Biaya kirim supplier", amount: "-15.000", icon: FaTruck, color: "bg-purple-500" },
@@ -31,15 +53,11 @@ export default function Dashboard() {
         { name: "Gaji Karyawan", amount: "520.000", color: "bg-teal-200", width: "55%" },
     ];
 
-    // Generate chart data dari penjualan
-    // Ambil data penjualan dan convert ke chart values berdasarkan total
-    const chartData = penjualanData
-        .filter(item => item.data === undefined) // Exclude yang punya property data
-        .map(item => {
-            // Convert string "700.000" ke number dan scale down untuk chart
-            const total = parseInt(item.total.replace(/\./g, ''));
-            return Math.round(total / 10000); // Scale down untuk visualisasi
-        });
+    // Generate chart data dari penjualan Supabase
+    const chartData = loading ? [] : penjualanData.map(item => {
+        const total = parseInt(item.total.replace(/\./g, ''));
+        return Math.round(total / 10000);
+    });
 
     const avatars = [
         { src: "/img/TAYO.jpg", alt: "User 1" },

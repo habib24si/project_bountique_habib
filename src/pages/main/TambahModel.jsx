@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { FaPlus } from "react-icons/fa";
-import modelsData from "../../data/modelsData";
+import { modelsAPI } from "../../services/modelsAPI";
 
 // Import komponen kecil
 import ModelFormModal from "../../components/admin/model/ModelFormModal";
@@ -10,8 +10,9 @@ export default function TambahModel() {
     // useRef untuk auto focus input nama saat form dibuka
     const namaInputRef = useRef(null);
 
-    // State menggunakan data dari JSON
-    const [models, setModels] = useState(modelsData);
+    // State untuk models dari Supabase
+    const [models, setModels] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
     const [form, setForm] = useState({
         nama: "",
@@ -23,6 +24,11 @@ export default function TambahModel() {
         deskripsi: ""
     });
 
+    // useEffect untuk fetch data models dari Supabase
+    useEffect(() => {
+        fetchModels();
+    }, []);
+
     // useEffect untuk auto focus ke input nama saat form dibuka
     useEffect(() => {
         if (showForm && namaInputRef.current) {
@@ -30,33 +36,69 @@ export default function TambahModel() {
         }
     }, [showForm]);
 
+    // Fungsi untuk fetch semua models
+    const fetchModels = async () => {
+        try {
+            setLoading(true);
+            const data = await modelsAPI.fetchModels();
+            setModels(data);
+        } catch (error) {
+            console.error("Gagal memuat data models:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // Fungsi untuk update field form
     const handleChange = (field, value) => {
         setForm({ ...form, [field]: value });
     };
 
-    // Fungsi untuk submit form
-    const handleSubmit = (e) => {
+    // Fungsi untuk submit form (tambah model baru ke Supabase)
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const newModel = {
-            id: models.length > 0 ? Math.max(...models.map(m => m.id)) + 1 : 1,
-            nama: form.nama,
-            kategori: form.kategori,
-            ukuran: form.ukuran,
-            harga: form.harga,
-            stok: parseInt(form.stok),
-            warna: form.warna,
-            deskripsi: form.deskripsi
-        };
-        setModels([...models, newModel]);
-        setForm({ nama: "", kategori: "Dress", ukuran: "", harga: "", stok: "", warna: "", deskripsi: "" });
-        setShowForm(false);
+        try {
+            const newModel = {
+                nama: form.nama,
+                kategori: form.kategori,
+                ukuran: form.ukuran,
+                harga: form.harga,
+                stok: parseInt(form.stok),
+                warna: form.warna,
+                deskripsi: form.deskripsi
+            };
+            
+            await modelsAPI.createModel(newModel);
+            await fetchModels(); // Refresh data
+            setForm({ nama: "", kategori: "Dress", ukuran: "", harga: "", stok: "", warna: "", deskripsi: "" });
+            setShowForm(false);
+        } catch (error) {
+            console.error("Gagal menambahkan model:", error);
+        }
     };
 
-    // Fungsi untuk hapus model
-    const handleDelete = (id) => {
-        setModels(models.filter(m => m.id !== id));
+    // Fungsi untuk hapus model dari Supabase
+    const handleDelete = async (id) => {
+        if (!confirm("Yakin ingin menghapus model ini?")) return;
+        
+        try {
+            await modelsAPI.deleteModel(id);
+            await fetchModels(); // Refresh data
+        } catch (error) {
+            console.error("Gagal menghapus model:", error);
+        }
     };
+
+    // Tampilkan loading
+    if (loading) {
+        return (
+            <div className="flex-1 bg-gray-50 p-6">
+                <div className="flex items-center justify-center h-full">
+                    <p className="text-gray-500">Loading...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="flex-1 bg-gray-50 p-6">

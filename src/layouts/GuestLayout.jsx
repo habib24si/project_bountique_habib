@@ -53,13 +53,6 @@ export default function GuestLayout() {
                 <div className="p-4 space-y-2">
                     <MemberBanner />
                     
-                    <NavLink
-                        to="/"
-                        className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 border"
-                    >
-                        <FaArrowLeft />
-                        <span>Kembali ke Admin</span>
-                    </NavLink>
                 </div>
             </div>
 

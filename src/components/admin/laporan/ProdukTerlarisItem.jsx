@@ -34,8 +34,9 @@ export default function ProdukTerlarisItem({ produk, index }) {
             <div className="w-48 bg-gray-200 rounded-full h-3">
                 <div
                     className={`h-3 rounded-full ${getProgressColor()}`}
-                    style={{ width: `${(produk.jumlah / 3) * 100}%` }}
-                ></div>
+                    style={{ width: `${(produk.jumlah / 3) * 100}%` }}>
+                        
+                    </div>
             </div>
 
             {/* Jumlah */}

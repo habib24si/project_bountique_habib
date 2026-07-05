@@ -34,7 +34,13 @@ export const userAPI = {
         const check = await axios.get(`${API_URL}?name=eq.${name}`, { headers })
         if (check.data.length > 0) throw new Error('Username sudah digunakan')
         
-        const res = await axios.post(API_URL, { name, password }, { headers: {...headers, Prefer: "return=representation"} })
+        // Default role adalah 'member' dan tier 'bronze' saat register
+        const res = await axios.post(API_URL, { 
+            name, 
+            password, 
+            role: 'member',
+            member_tier: 'bronze'  // Default tier Bronze (5% diskon)
+        }, { headers: {...headers, Prefer: "return=representation"} })
         return res.data[0]
     },
 

@@ -17,7 +17,13 @@ export default function Login() {
             const response = await userAPI.login(form.name, form.password);
             localStorage.setItem('access_token', response.access_token);
             localStorage.setItem('user', JSON.stringify(response.user));
-            navigate("/");
+            
+            // Redirect berdasarkan role
+            if (response.user.role === 'admin') {
+                navigate("/admin"); // Admin → Dashboard Admin
+            } else {
+                navigate("/member"); // Member → Dashboard Member
+            }
         } catch (err) {
             setError(err.message || "Login gagal");
         } finally {

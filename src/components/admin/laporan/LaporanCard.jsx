@@ -1,5 +1,5 @@
 // LaporanCard.jsx
-// Komponen untuk menampilkan 1 kartu laporan
+// untuk menampilkan 1 kartu laporan
 
 export default function LaporanCard({ label, value, bgColor }) {
     return (

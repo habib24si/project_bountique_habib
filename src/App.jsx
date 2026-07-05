@@ -27,45 +27,53 @@ const Loading = React.lazy(() => import("./components/Loading"))
 function App() {
     return (
         <Suspense fallback={<Loading />}>
-                    <Routes>
-            <Route path="/" element={<MainLayout />}>
-                <Route index element={<Dashboard />} />
-                <Route path="tambah-model" element={<TambahModel />} />
-                <Route path="model-tersedia" element={<ModelTersedia />} />
-                <Route path="penjualan" element={<Penjualan />} />
-                <Route path="laporan" element={<Laporan />} />
-                <Route path="manajemen-user" element={<ManajemenUser />} />
+            <Routes>
+                {/* Halaman Pertama - Profil Company */}
+                <Route path="/" element={<ProfilCompany />} />
 
-                <Route path="error/400" element={<ErrorPage errorCode={400} />} />
-                <Route path="error/401" element={<ErrorPage errorCode={401} />} />
-                <Route path="error/403" element={<ErrorPage errorCode={403} />} />
-            </Route>
+                {/* Admin Routes */}
+                <Route path="/admin" element={<MainLayout />}>
+                    <Route index element={<Dashboard />} />
+                    <Route path="tambah-model" element={<TambahModel />} />
+                    <Route path="model-tersedia" element={<ModelTersedia />} />
+                    <Route path="penjualan" element={<Penjualan />} />
+                    <Route path="laporan" element={<Laporan />} />
+                    <Route path="manajemen-user" element={<ManajemenUser />} />
 
-            <Route path="/guest" element={<GuestLayout />}>
-                <Route index element={<Produk />} />
-                <Route path="produk" element={<Produk />} />
-                <Route path="pesanan" element={<Pesanan />} />
-                <Route path="histori" element={<Histori />} />
-            </Route>
-
-            {/* Profil Company - Standalone (tanpa layout/sidebar) */}
-            <Route path="/profil-company" element={<ProfilCompany />} />
-
-            <Route path="/member" element={<MemberLayout />}>
-                <Route index element={<MemberDashboard />} />
-                <Route path="belanja" element={<MemberBelanja />} />
-                <Route path="reward" element={<MemberReward />} />
-                <Route path="profil" element={<MemberProfil />} />
-            </Route>
-
-                <Route element={<AuthLayout/>}>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register/>} />
-                <Route path="/forgot" element={<Forgot/>} />
+                    <Route path="error/400" element={<ErrorPage errorCode={400} />} />
+                    <Route path="error/401" element={<ErrorPage errorCode={401} />} />
+                    <Route path="error/403" element={<ErrorPage errorCode={403} />} />
                 </Route>
 
-            <Route path="*" element={<NotFound />} />
-        </Routes>
+                {/* Guest Routes */}
+                <Route path="/guest" element={<GuestLayout />}>
+                    <Route index element={<Produk />} />
+                    <Route path="produk" element={<Produk />} />
+                    <Route path="pesanan" element={<Pesanan />} />
+                    <Route path="histori" element={<Histori />} />
+                </Route>
+
+                {/* Profil Company - Juga bisa diakses via /profil-company */}
+                <Route path="/profil-company" element={<ProfilCompany />} />
+
+                {/* Member Routes */}
+                <Route path="/member" element={<MemberLayout />}>
+                    <Route index element={<MemberDashboard />} />
+                    <Route path="belanja" element={<MemberBelanja />} />
+                    <Route path="reward" element={<MemberReward />} />
+                    <Route path="profil" element={<MemberProfil />} />
+                </Route>
+
+                {/* Auth Routes */}
+                <Route element={<AuthLayout/>}>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register/>} />
+                    <Route path="/forgot" element={<Forgot/>} />
+                </Route>
+
+                {/* 404 Not Found */}
+                <Route path="*" element={<NotFound />} />
+            </Routes>
         </Suspense>
     );
 }

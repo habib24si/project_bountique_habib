@@ -1,10 +1,32 @@
-import penjualanData from "../../data/penjualanData";
+import { useState, useEffect } from "react";
+import { penjualanAPI } from "../../services/penjualanAPI";
 
 // Import komponen kecil
 import LaporanCard from "../../components/admin/laporan/LaporanCard";
 import ProdukTerlarisItem from "../../components/admin/laporan/ProdukTerlarisItem";
 
 export default function Laporan() {
+    const [penjualanData, setPenjualanData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // useEffect untuk fetch data saat pertama kali load
+    useEffect(() => {
+        fetchPenjualan();
+    }, []);
+
+    // Fungsi untuk fetch penjualan dari Supabase
+    const fetchPenjualan = async () => {
+        try {
+            setLoading(true);
+            const data = await penjualanAPI.fetchPenjualan();
+            setPenjualanData(data);
+        } catch (error) {
+            console.error("Gagal memuat data penjualan:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // Hitung total penjualan
     const penjualanSelesai = penjualanData.filter(item => item.status === "Selesai");
     
@@ -32,6 +54,17 @@ export default function Laporan() {
         { nama: "Blouse Casual", jumlah: 1 },
         { nama: "Outer Cardigan", jumlah: 1 },
     ];
+
+    // Tampilkan loading
+    if (loading) {
+        return (
+            <div className="flex-1 bg-gray-50 p-6">
+                <div className="flex items-center justify-center h-full">
+                    <p className="text-gray-500">Loading...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="flex-1 bg-gray-50 p-6">

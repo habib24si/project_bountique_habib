@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaTshirt, FaTag, FaBox, FaSync } from "react-icons/fa";
-import modelsData from "../../data/modelsData";
+import { modelsAPI } from "../../services/modelsAPI";
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent } from "@/components/ui/empty";
 
 // Import komponen kecil
@@ -8,12 +8,31 @@ import StatCard from "../../components/admin/penjualan/StatCard";
 import ModelCard from "../../components/admin/model/ModelCard";
 
 export default function ModelTersedia() {
-    // State menggunakan data dari JSON
-    const [models, setModels] = useState(modelsData);
+    // State untuk models dari Supabase
+    const [models, setModels] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    // Fungsi untuk refresh data dari JSON
+    // useEffect untuk fetch data saat pertama kali load
+    useEffect(() => {
+        fetchModels();
+    }, []);
+
+    // Fungsi untuk fetch models dari Supabase
+    const fetchModels = async () => {
+        try {
+            setLoading(true);
+            const data = await modelsAPI.fetchModels();
+            setModels(data);
+        } catch (error) {
+            console.error("Gagal memuat data models:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Fungsi untuk refresh data dari Supabase
     const refreshData = () => {
-        setModels([...modelsData]);
+        fetchModels();
     };
 
     // Fungsi untuk mendapatkan warna kategori
@@ -27,6 +46,17 @@ export default function ModelTersedia() {
         };
         return colors[kategori] || "bg-gray-100 text-gray-700";
     };
+
+    // Tampilkan loading
+    if (loading) {
+        return (
+            <div className="flex-1 bg-gray-50 p-6">
+                <div className="flex items-center justify-center h-full">
+                    <p className="text-gray-500">Loading...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="flex-1 bg-gray-50 p-6">

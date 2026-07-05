@@ -63,13 +63,6 @@ export default function MemberLayout() {
                 </nav>
 
                 <div className="p-4 border-t border-gray-700">
-                    <NavLink
-                        to="/"
-                        className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-gray-300 hover:bg-gray-800"
-                    >
-                        <FaArrowLeft />
-                        <span>Kembali ke Admin</span>
-                    </NavLink>
                 </div>
             </div>
 

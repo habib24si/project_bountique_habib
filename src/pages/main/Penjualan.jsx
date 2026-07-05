@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaShoppingBag, FaCalendar, FaDollarSign, FaBox } from "react-icons/fa";
-import penjualanData from "../../data/penjualanData";
+import { penjualanAPI } from "../../services/penjualanAPI";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption, TableFooter } from "@/components/ui/table";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext } from "@/components/ui/pagination";
 
@@ -8,9 +8,28 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import StatCard from "../../components/admin/penjualan/StatCard";
 
 export default function Penjualan() {
-    const [penjualan] = useState(penjualanData);
+    const [penjualan, setPenjualan] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+
+    // useEffect untuk fetch data saat pertama kali load
+    useEffect(() => {
+        fetchPenjualan();
+    }, []);
+
+    // Fungsi untuk fetch penjualan dari Supabase
+    const fetchPenjualan = async () => {
+        try {
+            setLoading(true);
+            const data = await penjualanAPI.fetchPenjualan();
+            setPenjualan(data);
+        } catch (error) {
+            console.error("Gagal memuat data penjualan:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -42,6 +61,17 @@ export default function Penjualan() {
             penjualanSelesai = penjualanSelesai + 1;
         }
     });
+
+    // Tampilkan loading
+    if (loading) {
+        return (
+            <div className="flex-1 bg-gray-50 p-6">
+                <div className="flex items-center justify-center h-full">
+                    <p className="text-gray-500">Loading...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="flex-1 bg-gray-50 p-6">
